@@ -1,0 +1,132 @@
+#include "../include/Admin.h"
+#include <iostream>
+using namespace std;
+
+// Flight Management Functions
+
+void Admin::addFlight() {
+    string flightId = generateFlightId();
+    string origin, destination, date;
+
+    cout << "\n--- Add New Flight ---\n";
+    cout << "Generated Flight ID: " << flightId << endl;
+    cout << "Enter origin: ";
+    getline(cin, origin);
+    cout << "Enter destination: ";
+    getline(cin, destination);
+    cout << "Enter date (YYYY-MM-DD): ";
+    getline(cin, date);
+
+    if (!isDateValid(date)) {
+        cout << "Invalid date format. Please use YYYY-MM-DD format.\n";
+        return;
+    }
+
+    if (isDateExpired(date)) {
+        cout << "Error: Cannot add flight with expired date. Please enter a future date.\n";
+        return;
+    }
+
+    Flight flight(flightId, origin, destination, date, "", "", "", Aircraft());
+    flights.push_back(flight);
+    saveFlightsToFile();
+    
+    cout << "Flight added successfully!\n";
+}
+
+void Admin::removeFlight() {
+    int choice;
+    cout << "\n--- Remove Flight ---\n";
+    
+    if (flights.empty()) {
+        cout << "No flights available.\n";
+        return;
+    }
+
+    cout << "\n--- Available Flights ---\n";
+    for (size_t i = 0; i < flights.size(); i++) {
+        cout << (i + 1) << ". ";
+        flights[i].display();
+    }
+    cout << "Select flight number to remove: ";
+    cin >> choice;
+    cin.ignore(); // Clear newline
+
+    if (choice < 1 || choice > static_cast<int>(flights.size())) {
+        cout << "Invalid flight selection!\n";
+        return;
+    }
+
+    flights.erase(flights.begin() + choice - 1);
+    saveFlightsToFile();
+    cout << "Flight removed successfully!\n";
+}
+
+string Admin::createFlightId() {
+    string id = generateFlightId();
+    cout << "Generated Flight ID: " << id << endl;
+    return id;
+}
+
+void Admin::viewAllFlights() {
+    cout << "\n--- All Flights ---\n";
+    if (flights.empty()) {
+        cout << "No flights found.\n";
+        return;
+    }
+    for (const auto& flight : flights) {
+        flight.display();
+    }
+}
+
+void Admin::assignFlightTimes() {
+    int flightChoice;
+    string depTime, arrTime;
+    cout << "\n--- Assign Flight Times ---\n";
+    
+    if (flights.empty()) {
+        cout << "No flights available. Please add flights first.\n";
+        return;
+    }
+
+    cout << "\n--- Available Flights ---\n";
+    for (size_t i = 0; i < flights.size(); i++) {
+        cout << (i + 1) << ". ";
+        flights[i].display();
+    }
+    cout << "Select flight number: ";
+    cin >> flightChoice;
+    cin.ignore(); // Clear newline
+
+    if (flightChoice < 1 || flightChoice > static_cast<int>(flights.size())) {
+        cout << "Invalid flight selection!\n";
+        return;
+    }
+
+    int flightIdx = flightChoice - 1;
+    Flight& selectedFlight = flights[flightIdx];
+    
+    // Check if flight date is expired
+    if (isDateExpired(selectedFlight.getDate())) {
+        cout << "Error: Cannot assign times to an expired flight.\n";
+        return;
+    }
+
+    cout << "Enter departure time (HH:MM): ";
+    getline(cin, depTime);
+    cout << "Enter arrival time (HH:MM): ";
+    getline(cin, arrTime);
+
+    // Validate time format
+    if (depTime.length() != 5 || depTime[2] != ':' || 
+        arrTime.length() != 5 || arrTime[2] != ':') {
+        cout << "Invalid time format. Please use HH:MM format.\n";
+        return;
+    }
+
+    selectedFlight.setDepartureTime(depTime);
+    selectedFlight.setArrivalTime(arrTime);
+    saveFlightsToFile();
+    cout << "Flight times assigned successfully!\n";
+}
+

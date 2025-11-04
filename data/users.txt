@@ -1,3 +1,0 @@
-eren,1234,Passenger
-admin,admin123,Admin
-john,abcd,Staff
