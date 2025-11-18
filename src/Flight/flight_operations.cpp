@@ -79,54 +79,5 @@ void Admin::viewAllFlights() {
     }
 }
 
-void Admin::assignFlightTimes() {
-    int flightChoice;
-    string depTime, arrTime;
-    cout << "\n--- Assign Flight Times ---\n";
-    
-    if (flights.empty()) {
-        cout << "No flights available. Please add flights first.\n";
-        return;
-    }
 
-    cout << "\n--- Available Flights ---\n";
-    for (size_t i = 0; i < flights.size(); i++) {
-        cout << (i + 1) << ". ";
-        flights[i].display();
-    }
-    cout << "Select flight number: ";
-    cin >> flightChoice;
-    cin.ignore(); // Clear newline
-
-    if (flightChoice < 1 || flightChoice > static_cast<int>(flights.size())) {
-        cout << "Invalid flight selection!\n";
-        return;
-    }
-
-    int flightIdx = flightChoice - 1;
-    Flight& selectedFlight = flights[flightIdx];
-    
-    // Check if flight date is expired
-    if (isDateExpired(selectedFlight.getDate())) {
-        cout << "Error: Cannot assign times to an expired flight.\n";
-        return;
-    }
-
-    cout << "Enter departure time (HH:MM): ";
-    getline(cin, depTime);
-    cout << "Enter arrival time (HH:MM): ";
-    getline(cin, arrTime);
-
-    // Validate time format
-    if (depTime.length() != 5 || depTime[2] != ':' || 
-        arrTime.length() != 5 || arrTime[2] != ':') {
-        cout << "Invalid time format. Please use HH:MM format.\n";
-        return;
-    }
-
-    selectedFlight.setDepartureTime(depTime);
-    selectedFlight.setArrivalTime(arrTime);
-    saveFlightsToFile();
-    cout << "Flight times assigned successfully!\n";
-}
 

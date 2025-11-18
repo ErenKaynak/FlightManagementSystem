@@ -1,27 +1,21 @@
 #pragma once
+#include "Person.h"
 #include <string>
-using namespace std;
 
-class Pilot {
+class Pilot : public Person {
 private:
-    string pilotId;
-    string name;
-    string licenseNumber;
+    std::string licenseNumber;
 
 public:
-    Pilot(string id="", string n="", string license="") 
-        : pilotId(id), name(n), licenseNumber(license) {}
+    using Person::display;
+    Pilot(std::string id = "", std::string n = "", std::string license = "");
 
-    void display() const;
+    void display(bool detailed = true) const;
 
-    // Getters
-    string getPilotId() const { return pilotId; }
-    string getName() const { return name; }
-    string getLicenseNumber() const { return licenseNumber; }
+    // Getter
+    std::string getLicenseNumber() const;
 
-    // Setters
-    void setPilotId(string id) { pilotId = id; }
-    void setName(string n) { name = n; }
-    void setLicenseNumber(string license) { licenseNumber = license; }
+    // Setter
+    void setLicenseNumber(std::string license);
 };
 

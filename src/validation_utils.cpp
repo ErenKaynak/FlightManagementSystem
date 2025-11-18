@@ -38,23 +38,7 @@ int Admin::findAircraftIndex(string aircraftId) {
     return -1;
 }
 
-int Admin::findPilotIndex(string pilotId) {
-    for (size_t i = 0; i < pilots.size(); i++) {
-        if (pilots[i].getPilotId() == pilotId) {
-            return i;
-        }
-    }
-    return -1;
-}
 
-int Admin::findWorkerIndex(string workerId) {
-    for (size_t i = 0; i < workers.size(); i++) {
-        if (workers[i].getWorkerId() == workerId) {
-            return i;
-        }
-    }
-    return -1;
-}
 
 void Admin::pause() {
     cout << "\nPress any key to continue...";

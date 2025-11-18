@@ -1,13 +1,16 @@
-#include "../include/Admin.h"
-#include "../include/Menu.h"
+#include "Admin.h"
+#include "Menu.h"
+#include "Person.h"
+#include "Pilot.h"
+#include "Worker.h"
 #include <iostream>
-using namespace std;
+#include <fstream>
+#include <sstream>
 
 Admin::Admin() {
     // Load data from files on initialization
     loadAircraftsFromFile();
-    loadPilotsFromFile();
-    loadWorkersFromFile();
+    loadPeopleFromFile();
     loadFlightsFromFile();
 }
 
@@ -15,8 +18,10 @@ Admin::~Admin() {
     // Save data to files on destruction
     saveFlightsToFile();
     saveAircraftsToFile();
-    savePilotsToFile();
-    saveWorkersToFile();
+    savePeopleToFile();
+    for (Person* person : people) {
+        delete person;
+    }
 }
 
 // Menu System
@@ -25,8 +30,8 @@ void Admin::showMenu() {
     int choice;
     while (true) {
         Menu::showMainMenu();
-        cin >> choice;
-        cin.ignore(); // Clear newline
+        std::cin >> choice;
+        std::cin.ignore(); // Clear newline
 
         switch (choice) {
             case 1:
@@ -39,10 +44,10 @@ void Admin::showMenu() {
                 handleWorkersMenu();
                 break;
             case 0:
-                cout << "Exiting Flight Management System. Goodbye!\n";
+                std::cout << "Exiting Flight Management System. Goodbye!\n";
                 return;
             default:
-                cout << "Invalid choice. Please try again.\n";
+                std::cout << "Invalid choice. Please try again.\n";
         }
     }
 }
@@ -51,8 +56,8 @@ void Admin::handleFlightMenu() {
     int choice;
     while (true) {
         Menu::showFlightMenu();
-        cin >> choice;
-        cin.ignore(); // Clear newline
+        std::cin >> choice;
+        std::cin.ignore(); // Clear newline
 
         switch (choice) {
             case 1:
@@ -76,13 +81,10 @@ void Admin::handleFlightMenu() {
             case 7:
                 assignPilotToFlight();
                 break;
-            case 8:
-                assignFlightTimes();
-                break;
             case 0:
                 return; // Go to Main Menu
             default:
-                cout << "Invalid choice. Please try again.\n";
+                std::cout << "Invalid choice. Please try again.\n";
         }
     }
 }
@@ -91,30 +93,34 @@ void Admin::handleViewMenu() {
     int choice;
     while (true) {
         Menu::showViewMenu();
-        cin >> choice;
-        cin.ignore(); // Clear newline
+        std::cin >> choice;
+        std::cin.ignore(); // Clear newline
 
         switch (choice) {
             case 1:
                 viewAllFlights();
                 pause();
-                return; // Return to Main Menu after pause
+                break;
             case 2:
                 viewAllPilots();
                 pause();
-                return; // Return to Main Menu after pause
+                break;
             case 3:
                 viewAllWorkers();
                 pause();
-                return; // Return to Main Menu after pause
+                break;
             case 4:
                 viewAllAircrafts();
                 pause();
-                return; // Return to Main Menu after pause
+                break;
+            case 5:
+                viewAllPeople();
+                pause();
+                break;
             case 0:
                 return; // Go to Main Menu
             default:
-                cout << "Invalid choice. Please try again.\n";
+                std::cout << "Invalid choice. Please try again.\n";
         }
     }
 }
@@ -123,8 +129,8 @@ void Admin::handleWorkersMenu() {
     int choice;
     while (true) {
         Menu::showWorkersMenu();
-        cin >> choice;
-        cin.ignore(); // Clear newline
+        std::cin >> choice;
+        std::cin.ignore(); // Clear newline
 
         switch (choice) {
             case 1:
@@ -136,7 +142,66 @@ void Admin::handleWorkersMenu() {
             case 0:
                 return; // Go to Main Menu
             default:
-                cout << "Invalid choice. Please try again.\n";
+                std::cout << "Invalid choice. Please try again.\n";
         }
     }
 }
+
+
+void Admin::viewAllPeople() {
+    std::cout << "--- All People ---\n";
+    for (const auto& person : people) {
+        person->display();
+    }
+    std::cout << "--------------------\n";
+}
+
+void Admin::loadPeopleFromFile() {
+    std::ifstream file("data/people.txt");
+    if (!file.is_open()) {
+        std::cerr << "Error opening people.txt for reading.\n";
+        return;
+    }
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string type, id, name, extra;
+        std::getline(ss, type, ',');
+        std::getline(ss, id, ',');
+        std::getline(ss, name, ',');
+        std::getline(ss, extra, ',');
+        if (type == "Pilot") {
+            people.push_back(new Pilot(id, name, extra));
+        } else if (type == "Worker") {
+            people.push_back(new Worker(id, name, extra));
+        }
+    }
+    file.close();
+}
+
+void Admin::savePeopleToFile() {
+    std::ofstream file("data/people.txt");
+    if (!file.is_open()) {
+        std::cerr << "Error opening people.txt for writing.\n";
+        return;
+    }
+    for (const auto& person : people) {
+        file << person->getId() << "," << person->getName();
+        if (Pilot* p = dynamic_cast<Pilot*>(person)) {
+            file << ",Pilot," << p->getLicenseNumber() << "\n";
+        } else if (Worker* w = dynamic_cast<Worker*>(person)) {
+            file << ",Worker," << w->getTask() << "\n";
+        }
+    }
+    file.close();
+}
+
+int Admin::findPersonIndex(std::string personId) {
+    for (size_t i = 0; i < people.size(); ++i) {
+        if (people[i]->getId() == personId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
