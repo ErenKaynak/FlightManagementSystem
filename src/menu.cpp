@@ -6,6 +6,7 @@ void Menu::showMainMenu() {
     cout << "1. Flight\n";
     cout << "2. View\n";
     cout << "3. Workers\n";
+    cout << "4. Phase 2 Features (Algorithms & Statistics)\n";
     cout << "0. Exit\n";
     cout << "Enter your choice: ";
 }
@@ -44,4 +45,20 @@ void Menu::showWorkersMenu() {
     cout << "0. Go to Main Menu\n";
     cout << "Enter your choice: ";
 }
+
+void Menu::showAlgorithmsMenu() {
+    cout << "\n========================================\n";
+    cout << "   PHASE 2 FEATURES & ALGORITHMS\n";
+    cout << "========================================\n";
+    cout << "1. Display Statistics (Static Variables)\n";
+    cout << "2. Calculate Total Revenue (Problem A)\n";
+    cout << "3. Sort Flights by Price (QuickSort)\n";
+    cout << "4. Sort Flights by Duration (QuickSort)\n";
+    cout << "5. Search Flight by ID (Binary Search)\n";
+    cout << "6. Demonstrate All Features\n";
+    cout << "0. Go to Main Menu\n";
+    cout << "========================================\n";
+    cout << "Enter your choice: ";
+}
+
 

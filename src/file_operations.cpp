@@ -14,6 +14,7 @@ void Admin::loadFlightsFromFile() {
         if (line.empty()) continue;
         istringstream iss(line);
         string flightId, origin, destination, date, depTime, arrTime, pilotId, aircraftId;
+        string priceStr, durationStr;
         
         if (getline(iss, flightId, ',') &&
             getline(iss, origin, ',') &&
@@ -22,7 +23,27 @@ void Admin::loadFlightsFromFile() {
             getline(iss, depTime, ',') &&
             getline(iss, arrTime, ',') &&
             getline(iss, pilotId, ',') &&
-            getline(iss, aircraftId)) {
+            getline(iss, aircraftId, ',')) {
+            
+            // Try to read price and duration (for backward compatibility)
+            double price = 0.0;
+            int duration = 0;
+            
+            if (getline(iss, priceStr, ',')) {
+                try {
+                    price = stod(priceStr);
+                } catch (...) {
+                    price = 0.0;
+                }
+            }
+            
+            if (getline(iss, durationStr)) {
+                try {
+                    duration = stoi(durationStr);
+                } catch (...) {
+                    duration = 0;
+                }
+            }
             
             Aircraft ac;
             int aircraftIdx = findAircraftIndex(aircraftId);
@@ -30,7 +51,7 @@ void Admin::loadFlightsFromFile() {
                 ac = aircrafts[aircraftIdx];
             }
             
-            Flight flight(flightId, origin, destination, date, depTime, arrTime, pilotId, ac);
+            Flight flight(flightId, origin, destination, date, depTime, arrTime, pilotId, ac, price, duration);
             flights.push_back(flight);
         }
     }
@@ -49,7 +70,9 @@ void Admin::saveFlightsToFile() {
              << flight.getDepartureTime() << ","
              << flight.getArrivalTime() << ","
              << flight.getPilotId() << ","
-             << flight.getAircraft().getAircraftId() << "\n";
+             << flight.getAircraft().getAircraftId() << ","
+             << flight.getPrice() << ","
+             << flight.getDurationMinutes() << "\n";
     }
     file.close();
 }

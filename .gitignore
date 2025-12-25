@@ -1,0 +1,11 @@
+# Build artifacts
+build/
+*.o
+*.exe
+
+# IDE files
+.vscode/
+.DS_Store
+
+# Data files (if they contain test data)
+# data/

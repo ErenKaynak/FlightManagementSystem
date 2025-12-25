@@ -7,6 +7,8 @@ using namespace std;
 void Admin::addFlight() {
     string flightId = generateFlightId();
     string origin, destination, date;
+    double price = 0.0;
+    int duration = 0;
 
     cout << "\n--- Add New Flight ---\n";
     cout << "Generated Flight ID: " << flightId << endl;
@@ -26,12 +28,22 @@ void Admin::addFlight() {
         cout << "Error: Cannot add flight with expired date. Please enter a future date.\n";
         return;
     }
+    
+    // PHASE 2: Get price and duration for algorithmic problems
+    cout << "Enter flight price (in USD): $";
+    cin >> price;
+    cin.ignore();
+    
+    cout << "Enter flight duration (in minutes): ";
+    cin >> duration;
+    cin.ignore();
 
-    Flight flight(flightId, origin, destination, date, "", "", "", Aircraft());
+    Flight flight(flightId, origin, destination, date, "", "", "", Aircraft(), price, duration);
     flights.push_back(flight);
     saveFlightsToFile();
     
     cout << "Flight added successfully!\n";
+    cout << "Total flights in system: " << Flight::getTotalFlights() << endl;
 }
 
 void Admin::removeFlight() {

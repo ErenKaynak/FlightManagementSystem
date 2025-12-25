@@ -8,5 +8,6 @@ public:
     static void showFlightMenu();
     static void showViewMenu();
     static void showWorkersMenu();
+    static void showAlgorithmsMenu();  // New menu for Phase 2 features
 };
 
