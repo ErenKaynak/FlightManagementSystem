@@ -4,6 +4,7 @@
 #include "Pilot.h"
 #include "Worker.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 
@@ -42,6 +43,9 @@ void Admin::showMenu() {
                 break;
             case 3:
                 handleWorkersMenu();
+                break;
+            case 4:
+                handleAlgorithmsMenu();
                 break;
             case 0:
                 std::cout << "Exiting Flight Management System. Goodbye!\n";
@@ -138,6 +142,54 @@ void Admin::handleWorkersMenu() {
                 break;
             case 2:
                 assignTaskToWorker();
+                break;
+            case 0:
+                return; // Go to Main Menu
+            default:
+                std::cout << "Invalid choice. Please try again.\n";
+        }
+    }
+}
+
+void Admin::handleAlgorithmsMenu() {
+    int choice;
+    while (true) {
+        Menu::showAlgorithmsMenu();
+        std::cin >> choice;
+        std::cin.ignore(); // Clear newline
+
+        switch (choice) {
+            case 1:
+                displayStatistics();
+                pause();
+                break;
+            case 2: {
+                std::cout << "\n--- Calculate Total Revenue ---\n";
+                double revenue = calculateTotalRevenue();
+                std::cout << "Total Revenue from all flights: $" 
+                         << std::fixed << std::setprecision(2) << revenue << std::endl;
+                pause();
+                break;
+            }
+            case 3:
+                sortFlightsByPrice();
+                pause();
+                break;
+            case 4:
+                sortFlightsByDuration();
+                pause();
+                break;
+            case 5: {
+                std::string flightId;
+                std::cout << "\nEnter Flight ID to search: ";
+                std::getline(std::cin, flightId);
+                searchFlightById(flightId);
+                pause();
+                break;
+            }
+            case 6:
+                demonstrateAlgorithms();
+                pause();
                 break;
             case 0:
                 return; // Go to Main Menu
