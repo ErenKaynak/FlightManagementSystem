@@ -32,7 +32,9 @@ void Admin::loadFlightsFromFile() {
             if (getline(iss, priceStr, ',')) {
                 try {
                     price = stod(priceStr);
-                } catch (...) {
+                } catch (const std::invalid_argument& e) {
+                    price = 0.0;
+                } catch (const std::out_of_range& e) {
                     price = 0.0;
                 }
             }
@@ -40,7 +42,9 @@ void Admin::loadFlightsFromFile() {
             if (getline(iss, durationStr)) {
                 try {
                     duration = stoi(durationStr);
-                } catch (...) {
+                } catch (const std::invalid_argument& e) {
+                    duration = 0;
+                } catch (const std::out_of_range& e) {
                     duration = 0;
                 }
             }

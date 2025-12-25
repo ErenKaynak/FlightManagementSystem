@@ -28,7 +28,11 @@ double Admin::calculateTotalRevenue() const {
     
     // Iterate through all flights and accumulate their prices
     for (const auto& flight : flights) {
-        totalRevenue += flight.getPrice();
+        double price = flight.getPrice();
+        // Only add non-negative prices (validate data)
+        if (price >= 0) {
+            totalRevenue += price;
+        }
     }
     
     return totalRevenue;
@@ -212,6 +216,11 @@ void Admin::sortFlightsByDuration() {
  * Returns: Index of the flight if found, -1 otherwise
  */
 int Admin::binarySearchById(const vector<Flight>& sortedFlights, const string& flightId) {
+    // Handle empty vector edge case
+    if (sortedFlights.empty()) {
+        return -1;
+    }
+    
     int left = 0;
     int right = sortedFlights.size() - 1;
     
