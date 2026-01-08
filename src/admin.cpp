@@ -9,14 +9,14 @@
 #include <sstream>
 
 Admin::Admin() {
-    // Load data from files on initialization
+    
     loadAircraftsFromFile();
     loadPeopleFromFile();
     loadFlightsFromFile();
 }
 
 Admin::~Admin() {
-    // Save data to files on destruction
+    
     saveFlightsToFile();
     saveAircraftsToFile();
     savePeopleToFile();
@@ -25,14 +25,14 @@ Admin::~Admin() {
     }
 }
 
-// Menu System
+
 
 void Admin::showMenu() {
     int choice;
     while (true) {
         Menu::showMainMenu();
         std::cin >> choice;
-        std::cin.ignore(); // Clear newline
+        std::cin.ignore(); 
 
         switch (choice) {
             case 1:
@@ -61,7 +61,7 @@ void Admin::handleFlightMenu() {
     while (true) {
         Menu::showFlightMenu();
         std::cin >> choice;
-        std::cin.ignore(); // Clear newline
+        std::cin.ignore(); 
 
         switch (choice) {
             case 1:
@@ -86,7 +86,7 @@ void Admin::handleFlightMenu() {
                 assignPilotToFlight();
                 break;
             case 0:
-                return; // Go to Main Menu
+                return; 
             default:
                 std::cout << "Invalid choice. Please try again.\n";
         }
@@ -98,7 +98,7 @@ void Admin::handleViewMenu() {
     while (true) {
         Menu::showViewMenu();
         std::cin >> choice;
-        std::cin.ignore(); // Clear newline
+        std::cin.ignore(); 
 
         switch (choice) {
             case 1:
@@ -122,7 +122,7 @@ void Admin::handleViewMenu() {
                 pause();
                 break;
             case 0:
-                return; // Go to Main Menu
+                return; 
             default:
                 std::cout << "Invalid choice. Please try again.\n";
         }
@@ -134,7 +134,7 @@ void Admin::handleWorkersMenu() {
     while (true) {
         Menu::showWorkersMenu();
         std::cin >> choice;
-        std::cin.ignore(); // Clear newline
+        std::cin.ignore(); 
 
         switch (choice) {
             case 1:
@@ -144,7 +144,7 @@ void Admin::handleWorkersMenu() {
                 assignTaskToWorker();
                 break;
             case 0:
-                return; // Go to Main Menu
+                return; 
             default:
                 std::cout << "Invalid choice. Please try again.\n";
         }
@@ -156,7 +156,7 @@ void Admin::handleAlgorithmsMenu() {
     while (true) {
         Menu::showAlgorithmsMenu();
         std::cin >> choice;
-        std::cin.ignore(); // Clear newline
+        std::cin.ignore(); 
 
         switch (choice) {
             case 1:
@@ -192,7 +192,7 @@ void Admin::handleAlgorithmsMenu() {
                 pause();
                 break;
             case 0:
-                return; // Go to Main Menu
+                return; 
             default:
                 std::cout << "Invalid choice. Please try again.\n";
         }

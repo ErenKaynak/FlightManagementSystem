@@ -1,15 +1,15 @@
 #include "Person.h"
 #include <iostream>
 
-// REQUIREMENT: Static Variable - Initialize static member
+
 int Person::totalPeople = 0;
 
 Person::Person(std::string id, std::string name) : id(id), name(name) {
-    totalPeople++; // Increment counter when a person is created
+    totalPeople++; 
 }
 
 Person::~Person() {
-    totalPeople--; // Decrement counter when a person is destroyed
+    totalPeople--; 
 }
 
 std::string Person::getId() const {

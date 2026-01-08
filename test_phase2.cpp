@@ -8,7 +8,7 @@
 
 using namespace std;
 
-// Simple test framework
+
 void testStaticVariables() {
     cout << "\n=== Testing Static Variables ===" << endl;
     
@@ -26,7 +26,7 @@ void testStaticVariables() {
         cout << "✓ Flight static counter works (created 2, total: " << Flight::getTotalFlights() << ")" << endl;
     }
     
-    // Flights should be destroyed, counter should decrease
+    
     assert(Flight::getTotalFlights() == initialFlights);
     cout << "✓ Flight destructor decreases counter correctly" << endl;
     
@@ -52,20 +52,20 @@ void testOperatorOverloading() {
     Flight f2("FL002", "SFO", "SEA", "2025-01-20", "08:00", "11:00", "P2", Aircraft(), 199.99, 180);
     Flight f3("FL001", "BOS", "MIA", "2025-01-25", "12:00", "16:00", "P3", Aircraft(), 250.00, 200);
     
-    // Test == operator
-    assert(f1 == f3);  // Same ID
-    assert(!(f1 == f2));  // Different ID
+    
+    assert(f1 == f3);  
+    assert(!(f1 == f2));  
     cout << "✓ Equality operator (==) works correctly" << endl;
     
-    // Test < operator (compares by price)
-    assert(f2 < f1);  // 199.99 < 299.99
+    
+    assert(f2 < f1);  
     assert(!(f1 < f2));
     cout << "✓ Less than operator (<) works correctly for price comparison" << endl;
     
-    // Test << operator
+    
     cout << "✓ Stream operator (<<) output: " << f1 << endl;
     
-    // Test assignment operator
+    
     Flight f4;
     f4 = f1;
     assert(f4.getFlightId() == f1.getFlightId());
@@ -79,7 +79,7 @@ void testFriendFunctions() {
     Flight f1("FL001", "NYC", "LAX", "2025-01-15", "10:00", "14:00", "P1", Aircraft("AC1", "Boeing 737", 180), 299.99, 240);
     Flight f2("FL002", "SFO", "SEA", "2025-01-20", "08:00", "11:00", "P2", Aircraft("AC2", "Airbus A320", 150), 199.99, 180);
     
-    // Test friend function compareFlights
+    
     cout << "Testing compareFlights friend function:" << endl;
     compareFlights(f1, f2);
     cout << "✓ compareFlights friend function works" << endl;
@@ -100,8 +100,8 @@ void testQuickSort() {
         cout << "  " << f.getFlightId() << ": $" << f.getPrice() << endl;
     }
     
-    // Simple bubble sort for testing (we'll use the actual quicksort in the full app)
-    // Sort by price using < operator
+    
+    
     for (size_t i = 0; i < flights.size(); i++) {
         for (size_t j = 0; j < flights.size() - 1; j++) {
             if (flights[j+1] < flights[j]) {
@@ -115,7 +115,7 @@ void testQuickSort() {
         cout << "  " << f.getFlightId() << ": $" << f.getPrice() << endl;
     }
     
-    // Verify sorted order
+    
     assert(flights[0].getPrice() == 100.00);
     assert(flights[1].getPrice() == 200.00);
     assert(flights[2].getPrice() == 300.00);

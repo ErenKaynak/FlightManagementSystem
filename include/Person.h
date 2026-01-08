@@ -6,7 +6,7 @@ protected:
     std::string id;
     std::string name;
     
-    // REQUIREMENT: Static Variable - Track total number of people (pilots + workers + others)
+    
     static int totalPeople;
 
 public:
@@ -21,6 +21,6 @@ public:
 
     virtual void display() const;
     
-    // REQUIREMENT: Static method to get total people count
+    
     static int getTotalPeople() { return totalPeople; }
 };

@@ -13,12 +13,12 @@ public:
 
     void display() const;
 
-    // Getters
+    
     string getAircraftId() const { return aircraftId; }
     string getModel() const { return model; }
     int getCapacity() const { return capacity; }
 
-    // Setters
+    
     void setAircraftId(string id) { aircraftId = id; }
     void setModel(string m) { model = m; }
     void setCapacity(int cap) { capacity = cap; }

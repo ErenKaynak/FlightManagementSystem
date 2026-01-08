@@ -12,10 +12,10 @@ public:
 
     void display(bool detailed = true) const;
 
-    // Getter
+    
     std::string getLicenseNumber() const;
 
-    // Setter
+    
     void setLicenseNumber(std::string license);
 };
 

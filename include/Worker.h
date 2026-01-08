@@ -13,10 +13,10 @@ public:
     void display(bool detailed = true) const;
     void assignTask(std::string t);
 
-    // Getter
+    
     std::string getTask() const;
 
-    // Setter
+    
     void setTask(std::string t);
 };
 
